@@ -30,8 +30,6 @@
                 <version>3.6.0</version>
                 <configuration>
                     <mainClass>com.example.Application</mainClass>
-                    <source>1.8</source>
-                    <target>1.8</target>
                 </configuration>
             </plugin>            
         </plugins>
