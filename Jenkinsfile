@@ -1,34 +1,35 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven-3.9'
-    }
     stages {
-        stage("build jar") {
+        stage("test") {
             steps {
                 script {
-                    echo "Building the application..."
-                    sh 'mvn package'
+                    echo "Testing the application..."
+                    echo "Excuting pipeline for branch $BRANCH_NAME"
                 }
             }
         }
-        stage("build image") {
+        stage("build") {
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 script {
-                    echo 'Building the docker image...'
-                    /* groovylint-disable-next-line LineLength */
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'docker build -t loaiezayed925/my-repo:jma-2.0 .'
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh 'docker push loaiezayed925/my-repo:jma-2.0 '
-                    }
+                    echo "Building the application..."
                 }
             }
         }
         stage("deploy") {
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 script {
-                    echo 'deploying the application...'
+                    echo "Deploying the application..."
                 }
             }
         }
