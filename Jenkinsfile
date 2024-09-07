@@ -1,35 +1,48 @@
+#!/usr/bin/env groovy
+
+library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
+        [$class: 'GitSCMSource',
+         remote: 'https://github.com/loai-96/jenkins-shared-library.git',
+         credentialsId: 'github-credentials'
+        ]
+)
+
+
+def gv
+
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.9'
+    }
     stages {
-        stage("test") {
+        stage("init") {
             steps {
                 script {
-                    echo "Testing the application..."
-                    echo "Excuting pipeline for branch $BRANCH_NAME"
+                    gv = load "script.groovy"
                 }
             }
         }
-        stage("build") {
-            when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
-            }
+        stage("build jar") {
             steps {
                 script {
-                    echo "Building the application..."
+                    buildJar()
+                }
+            }
+        }
+        stage("build and push image") {
+            steps {
+                script {
+                    buildImage 'loaiezayed925/my-repo:jma-3.0'
+                    dockerLogin()
+                    dockerPush 'loaiezayed925/my-repo:jma-3.0'
                 }
             }
         }
         stage("deploy") {
-            when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
-            }
             steps {
                 script {
-                    echo "Deploying the application..."
+                    gv.deployApp()
                 }
             }
         }
