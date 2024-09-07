@@ -1,9 +1,9 @@
 #!/usr/bin/env groovy
 
-library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
+library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
         [$class: 'GitSCMSource',
-         remote: 'https://gitlab.com/nanuchi/jenkins-shared-library.git',
-         credentialsId: 'gitlab-credentials'
+         remote: 'https://github.com/loai-96/jenkins-shared-library.git',
+         credentialsId: 'github-credentials'
         ]
 )
 
@@ -33,9 +33,9 @@ pipeline {
         stage("build and push image") {
             steps {
                 script {
-                    buildImage 'nanajanashia/demo-app:jma-3.0'
+                    buildImage 'loaiezayed925/my-repo:jma-3.0'
                     dockerLogin()
-                    dockerPush 'nanajanashia/demo-app:jma-3.0'
+                    dockerPush 'loaiezayed925/my-repo:jma-3.0'
                 }
             }
         }
