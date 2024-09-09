@@ -1,5 +1,6 @@
 def buildJar() {
     echo "building the application..."
+     echo "some changes with webhook..."
     sh 'mvn package'
 } 
 
