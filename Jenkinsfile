@@ -14,7 +14,6 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    echo 'got triggered from git'
                     //gv.buildJar()
                 }
             }
