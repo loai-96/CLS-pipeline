@@ -14,6 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
+                    echo 'iam webhook 2'
                     //gv.buildJar()
                 }
             }
