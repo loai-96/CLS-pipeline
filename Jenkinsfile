@@ -22,6 +22,7 @@ pipeline {
             steps {
                 script {
                     echo "building image"
+                    echo 'iam webhook'
                     //gv.buildImage()
                 }
             }
